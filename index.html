@@ -10,26 +10,32 @@
       async
       crossorigin="anonymous"
       data-clerk-publishable-key="pk_live_Y2xlcmsuZmlsZXMua2VsbGFubm90ZmlsZXMubGlua3BjLm5ldCQ"
-      src="https://your-domain.clerk.accounts.dev/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
+      src="https://clerk.files.kellannotfiles.linkpc.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
       type="text/javascript">
     </script>
 
     <style>
-        /* Ensuring the auth container looks good in your sidebar */
         .auth-container {
             margin-top: auto;
             padding: 20px;
             border-top: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
+        #sign-in-button { width: 100%; }
         #sign-in-button button {
             width: 100%;
-            padding: 10px;
             cursor: pointer;
-            border-radius: 8px;
             border: none;
-            background: var(--primary-blue);
-            color: white;
-            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        /* Style for locked state */
+        .locked {
+            opacity: 0.6;
+            cursor: not-allowed !important;
         }
     </style>
 </head>
@@ -39,9 +45,9 @@
         <div class="logo-area">kguse</div>
         <div class="nav-links">
             <a href="index.html" class="nav-item active">🏠 Home</a>
-            <a href="games.html" class="nav-item">🎮 Games</a>
-            <a href="transfer.html" class="nav-item">🔌 Transfer</a>
-            <a href="unblocker.html" class="nav-item">💻 Iframe-unblocked</a>
+            <a href="games.html" class="nav-item protected">🎮 Games</a>
+            <a href="transfer.html" class="nav-item protected">🔌 Transfer</a>
+            <a href="unblocker.html" class="nav-item protected">💻 Iframe-unblocked</a>
         </div>
 
         <div class="auth-container">
@@ -58,28 +64,16 @@
         <div style="max-width: 800px; margin: 40px auto; text-align: center; background: white; padding: 50px; border-radius: 15px; border: 1px solid var(--border-color);">
             <h2 style="color: var(--dark-blue); font-size: 2.5rem; margin-bottom: 10px;">kguse</h2>
             <p style="font-size: 1.2rem; color: var(--text-main); line-height: 1.6;">
-                The ultimate hub for unblocked computer games and TI-84 Plus CE calculator tools. 
-                Everything is hosted for speed and accessibility.
+                The ultimate hub for unblocked computer games and TI-84 Plus CE calculator tools.
             </p>
 
             <div style="display: flex; gap: 20px; justify-content: center; margin-top: 30px;">
-                <a href="games.html" class="btn-usb" style="text-decoration: none; display: inline-block;">
+                <a href="games.html" class="btn-usb protected" style="text-decoration: none; display: inline-block;">
                     Browse Games
                 </a>
-                <a href="transfer.html" class="btn-usb" style="text-decoration: none; display: inline-block; background: var(--dark-blue);">
+                <a href="transfer.html" class="btn-usb protected" style="text-decoration: none; display: inline-block; background: var(--dark-blue);">
                     TI-84 Transfer
                 </a>
-            </div>
-        </div>
-
-        <div style="margin-top: 50px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-            <div style="background: #fff; padding: 25px; border-radius: 12px; border: 1px solid var(--border-color);">
-                <h3 style="color: var(--primary-blue);">🎮 500+ Games</h3>
-                <p>Access our massive library of web games including 1v1.lol, Retro Bowl, and the full "cl" series.</p>
-            </div>
-            <div style="background: #fff; padding: 25px; border-radius: 12px; border: 1px solid var(--border-color);">
-                <h3 style="color: var(--primary-blue);">🔌 TI-84 Tools</h3>
-                <p>Transfer apps, programs, and assembly games to your calculator using our WebUSB drag-and-drop tool.</p>
             </div>
         </div>
     </main>
@@ -90,20 +84,30 @@
 
             const userButtonDiv = document.getElementById('user-button');
             const signInDiv = document.getElementById('sign-in-button');
+            const protectedItems = document.querySelectorAll('.protected');
 
             if (Clerk.user) {
-                // If logged in, show the User Button (profile)
+                // USER LOGGED IN
                 Clerk.mountUserButton(userButtonDiv);
             } else {
-                // If logged out, create and show a Sign In button
+                // USER LOGGED OUT
                 const btn = document.createElement('button');
                 btn.innerText = "Sign In";
+                btn.className = "btn-usb";
                 btn.onclick = () => Clerk.openSignIn();
                 signInDiv.appendChild(btn);
+
+                // Add protection logic
+                protectedItems.forEach(item => {
+                    item.classList.add('locked');
+                    item.addEventListener('click', function(e) {
+                        e.preventDefault(); // Stop the link from opening
+                        alert("Please sign in to access this feature!");
+                        Clerk.openSignIn(); // Prompt login
+                    });
+                });
             }
         });
     </script>
-    
-    <script src="scripts.js"></script>
 </body>
 </html>
