@@ -2,35 +2,85 @@
 <html lang="en-us">
 <head>
     <meta charset="utf-8"/>
-    <title>Game Host</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+    <title>google.com</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bubbls/robobs@main/style.css"/>
-    <script src="https://cdn.jsdelivr.net/gh/bubbls/robobs@main/Web%20Audio%20Plugin/howler.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/bubbls/robobs@b685f532590449e8ed9fa5158ffd37fa7d7c1a0d/Web%20Audio%20Plugin/WebAudio.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/bubbls/robobs@main/Web%20Audio%20Plugin/howler.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/bubbls/robobs@b685f532590449e8ed9fa5158ffd37fa7d7c1a0d/Web%20Audio%20Plugin/WebAudio.js"></script>
+    
+    <script type="text/javascript">
+        // Mock SDK to stop "SDK not defined" errors
+        window.SDK_OPTIONS = {
+            gameId: "local_host",
+            onEvent: function (a) { console.log("Event:", a.name); }
+        };
+        // This ensures calls like sdk.showBanner() don't fail
+        window.sdk = {
+            showBanner: function() { console.log("Ads are disabled."); },
+            showInterstitial: function() { console.log("Ads are disabled."); }
+        };
+    </script>
+
     <style>
-        body { margin: 0; background: #000; overflow: hidden; height: 100vh; }
-        #unity-container { width: 100%; height: 100%; }
-        #unity-canvas { width: 100%; height: 100%; background: #231f20; }
+        canvas:focus { outline: none; }
+        html, body {
+            padding: 0; margin: 0; overflow: hidden;
+            user-select: none; -webkit-tap-highlight-color: rgba(0,0,0,0);
+            height: 100%; background: #000;
+        }
     </style>
 </head>
-<body>
-    <div id="unity-container">
-        <canvas id="unity-canvas"></canvas>
+<body class="dark">
+    <div id="unity-container" class="unity-desktop">
+        <canvas id="unity-canvas" tabindex="-1"></canvas>
     </div>
-    <div id="loading-cover">
-        <div id="unity-loading-bar"><div id="unity-progress-bar-full"></div></div>
+    <div id="loading-cover" style="display:none;">
+        <div id="unity-loading-bar">
+            <div id="unity-logo"><img src=""/></div>
+            <div id="unity-progress-bar-empty" style="display: none;">
+                <div id="unity-progress-bar-full"></div>
+            </div>
+            <div class="spinner"></div>
+        </div>
     </div>
 
     <script>
         const buildUrl = "https://cdn.jsdelivr.net/gh/bubbls/robobs@main/Build/";
-        
-        // These are the parts required to assemble the game engine online
-        const dataParts = ["FameGame.data.gz.part000.gz", "FameGame.data.gz.part001.gz", "FameGame.data.gz.part002.gz"].map(p => buildUrl + p);
-        const wasmParts = ["FameGame.wasm.gz.part000.gz", "FameGame.wasm.gz.part001.gz", "FameGame.wasm.gz.part002.gz", "FameGame.wasm.gz.part003.gz"].map(p => buildUrl + p);
 
-        async function combine(parts) {
-            const res = await Promise.all(parts.map(p => fetch(p).then(r => r.arrayBuffer())));
-            const blob = new Blob(res, { type: 'application/octet-stream' });
-            return URL.createObjectURL(blob);
+        const dataParts = [
+            "FameGame.data.gz.part000.gz",
+            "FameGame.data.gz.part001.gz",
+            "FameGame.data.gz.part002.gz"
+        ].map(part => buildUrl + part);
+
+        const wasmParts = [
+            "FameGame.wasm.gz.part000.gz",
+            "FameGame.wasm.gz.part001.gz",
+            "FameGame.wasm.gz.part002.gz",
+            "FameGame.wasm.gz.part003.gz"
+        ].map(part => buildUrl + part);
+
+        async function combineParts(parts) {
+            try {
+                const buffers = await Promise.all(
+                    parts.map(part => fetch(part).then(response => {
+                        if (!response.ok) throw new Error(`Failed to load ${part}`);
+                        return response.arrayBuffer();
+                    }))
+                );
+                const totalSize = buffers.reduce((sum, buffer) => sum + buffer.byteLength, 0);
+                const combinedArray = new Uint8Array(totalSize);
+                let offset = 0;
+                for (const buffer of buffers) {
+                    combinedArray.set(new Uint8Array(buffer), offset);
+                    offset += buffer.byteLength;
+                }
+                return URL.createObjectURL(new Blob([combinedArray], { type: 'application/octet-stream' }));
+            } catch (error) {
+                console.error("Combining error:", error);
+                throw error;
+            }
         }
 
         const config = {
@@ -38,25 +88,39 @@
             frameworkUrl: buildUrl + "FameGame.framework.js",
             codeUrl: "",
             streamingAssetsUrl: "https://cdn.jsdelivr.net/gh/bubbls/robobs@tree/main/StreamingAssets",
-            companyName: "LocalHost",
-            productName: "Game",
+            companyName: "DefaultCompany",
+            productName: "HZ",
+            productVersion: "0.1"
         };
+
+        const loaderUrl = buildUrl + "FameGame.loader.js";
+        const container = document.querySelector("#unity-container");
+        const canvas = document.querySelector("#unity-canvas");
+        const loadingCover = document.querySelector("#loading-cover");
+        const progressBarFull = document.querySelector("#unity-progress-bar-full");
+        const spinner = document.querySelector('.spinner');
+
+        loadingCover.style.background = "url('https://cdn.jsdelivr.net/gh/classrooms-1/ohanganamaranes@main/background.jpg') center / cover";
+        loadingCover.style.display = "";
 
         const script = document.createElement("script");
-        script.src = buildUrl + "FameGame.loader.js";
+        script.src = loaderUrl;
         script.onload = async () => {
-            config.dataUrl = await combine(dataParts);
-            config.codeUrl = await combine(wasmParts);
-            createUnityInstance(document.querySelector("#unity-canvas"), config, (p) => {
-                document.querySelector("#unity-progress-bar-full").style.width = (100 * p) + "%";
-            }).then(() => {
-                document.querySelector("#loading-cover").style.display = "none";
-            });
+            try {
+                config.dataUrl = await combineParts(dataParts);
+                config.codeUrl = await combineParts(wasmParts);
+                createUnityInstance(canvas, config, (progress) => {
+                    spinner.style.display = "none";
+                    document.querySelector("#unity-progress-bar-empty").style.display = "";
+                    progressBarFull.style.width = `${100 * progress}%`;
+                }).then((unityInstance) => {
+                    loadingCover.style.display = "none";
+                });
+            } catch (error) {
+                console.error("Unity loading error:", error);
+            }
         };
         document.body.appendChild(script);
-
-        // This prevents the SDK error in your screenshot
-        window.sdk = { showBanner: () => { console.log("Ads disabled for performance."); } };
     </script>
 </body>
 </html>
