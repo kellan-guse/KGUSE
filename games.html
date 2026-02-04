@@ -87,7 +87,7 @@
                         // Game launch logic
                         btn.onclick = () => {
                             const fileName = file.includes('.') ? file : file + '.html';
-                            const url = `https://cdn.jsdelivr.net/gh/bubbls/ugs-singlefile/UGS-Files/?scrlcbp=.${encodeURIComponent(fileName)}`;
+                            const url = `https://cdn.jsdelivr.net/gh/bubbls/ugs-singlefile/UGS-Files/${encodeURIComponent(fileName)}`;
                             
                             fetch(url)
                                 .then(res => res.ok ? res.text() : Promise.reject())
