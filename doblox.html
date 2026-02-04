@@ -4,29 +4,30 @@
     <meta charset="utf-8"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
-    <title>google.com</title>
+    <title>Unity Game - Ad Free</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bubbls/robobs@main/style.css"/>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/bubbls/robobs@main/Web%20Audio%20Plugin/howler.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/bubbls/robobs@b685f532590449e8ed9fa5158ffd37fa7d7c1a0d/Web%20Audio%20Plugin/WebAudio.js"></script>
     
     <script type="text/javascript">
-        // Mock SDK to stop "SDK not defined" errors
+        /** * MOCK SDK BLOCK 
+         * This replaces the actual ad SDKs to prevent "SDK not defined" errors.
+         */
         window.SDK_OPTIONS = {
-            gameId: "local_host",
-            onEvent: function (a) { console.log("Event:", a.name); }
+            gameId: "local_host_version",
+            onEvent: function (a) { console.log("Game Event:", a.name); }
         };
-        // This ensures calls like sdk.showBanner() don't fail
+        // Prevents the game from crashing when it tries to show an ad
         window.sdk = {
-            showBanner: function() { console.log("Ads are disabled."); },
-            showInterstitial: function() { console.log("Ads are disabled."); }
+            showBanner: function() { console.log("Ad block: Banner suppressed."); },
+            showInterstitial: function() { console.log("Ad block: Interstitial suppressed."); }
         };
     </script>
-
     <style>
         canvas:focus { outline: none; }
         html, body {
             padding: 0; margin: 0; overflow: hidden;
-            user-select: none; -webkit-tap-highlight-color: rgba(0,0,0,0);
+            -webkit-touch-callout: none; user-select: none;
             height: 100%; background: #000;
         }
     </style>
@@ -48,6 +49,7 @@
     <script>
         const buildUrl = "https://cdn.jsdelivr.net/gh/bubbls/robobs@main/Build/";
 
+        // File segments for the game engine
         const dataParts = [
             "FameGame.data.gz.part000.gz",
             "FameGame.data.gz.part001.gz",
@@ -64,22 +66,22 @@
         async function combineParts(parts) {
             try {
                 const buffers = await Promise.all(
-                    parts.map(part => fetch(part).then(response => {
-                        if (!response.ok) throw new Error(`Failed to load ${part}`);
-                        return response.arrayBuffer();
+                    parts.map(part => fetch(part).then(res => {
+                        if (!res.ok) throw new Error(`Network error on ${part}`);
+                        return res.arrayBuffer();
                     }))
                 );
-                const totalSize = buffers.reduce((sum, buffer) => sum + buffer.byteLength, 0);
-                const combinedArray = new Uint8Array(totalSize);
+                const totalSize = buffers.reduce((sum, b) => sum + b.byteLength, 0);
+                const combined = new Uint8Array(totalSize);
                 let offset = 0;
-                for (const buffer of buffers) {
-                    combinedArray.set(new Uint8Array(buffer), offset);
-                    offset += buffer.byteLength;
+                for (const b of buffers) {
+                    combined.set(new Uint8Array(b), offset);
+                    offset += b.byteLength;
                 }
-                return URL.createObjectURL(new Blob([combinedArray], { type: 'application/octet-stream' }));
-            } catch (error) {
-                console.error("Combining error:", error);
-                throw error;
+                return URL.createObjectURL(new Blob([combined], { type: 'application/octet-stream' }));
+            } catch (e) {
+                console.error("Assembly error:", e);
+                throw e;
             }
         }
 
@@ -93,34 +95,36 @@
             productVersion: "0.1"
         };
 
-        const loaderUrl = buildUrl + "FameGame.loader.js";
-        const container = document.querySelector("#unity-container");
         const canvas = document.querySelector("#unity-canvas");
         const loadingCover = document.querySelector("#loading-cover");
         const progressBarFull = document.querySelector("#unity-progress-bar-full");
-        const spinner = document.querySelector('.spinner');
 
         loadingCover.style.background = "url('https://cdn.jsdelivr.net/gh/classrooms-1/ohanganamaranes@main/background.jpg') center / cover";
         loadingCover.style.display = "";
 
         const script = document.createElement("script");
-        script.src = loaderUrl;
+        script.src = buildUrl + "FameGame.loader.js";
         script.onload = async () => {
             try {
                 config.dataUrl = await combineParts(dataParts);
                 config.codeUrl = await combineParts(wasmParts);
                 createUnityInstance(canvas, config, (progress) => {
-                    spinner.style.display = "none";
+                    document.querySelector('.spinner').style.display = "none";
                     document.querySelector("#unity-progress-bar-empty").style.display = "";
                     progressBarFull.style.width = `${100 * progress}%`;
-                }).then((unityInstance) => {
+                }).then(() => {
                     loadingCover.style.display = "none";
                 });
-            } catch (error) {
-                console.error("Unity loading error:", error);
+            } catch (err) {
+                console.error("Unity Init Failed:", err);
             }
         };
         document.body.appendChild(script);
+
+        // Utility to keep game focused
+        function FocusGame() { window.focus(); canvas.focus(); }
+        window.addEventListener('pointerdown', FocusGame);
+        window.addEventListener('touchstart', FocusGame);
     </script>
 </body>
 </html>
