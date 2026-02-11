@@ -6,48 +6,21 @@
     <title>kguse | Home</title>
     <link rel="stylesheet" href="styles.css">
 
-    <script
-      async
-      crossorigin="anonymous"
-      data-clerk-publishable-key="pk_live_Y2xlcmsuZmlsZXMua2VsbGFubm90ZmlsZXMubGlua3BjLm5ldCQ"
-      src="https://clerk.files.kellannotfiles.linkpc.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
-      type="text/javascript">
+    <script async crossorigin="anonymous" 
+        data-clerk-publishable-key="pk_live_Y2xlcmsuZmlsZXMua2VsbGFubm90ZmlsZXMubGlua3BjLm5ldCQ"
+        src="https://clerk.files.kellannotfiles.linkpc.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
+        type="text/javascript">
     </script>
-
-    <style>
-        .auth-container {
-            margin-top: auto;
-            padding: 20px;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        #sign-in-button { width: 100%; }
-        #sign-in-button button {
-            width: 100%;
-            cursor: pointer;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-        }
-        /* Style for locked state */
-        .locked {
-            opacity: 0.6;
-            cursor: not-allowed !important;
-        }
-    </style>
 </head>
 <body>
 
     <nav class="sidebar">
         <div class="logo-area">kguse</div>
         <div class="nav-links">
-            <a href="index.html?scrlcbp=." class="nav-item active">🏠 Home</a>
-            <a href="games.html?scrlcbp=." class="nav-item protected">🎮 Games</a>
-            <a href="transfer.html?scrlcbp=." class="nav-item protected">🔌 Transfer</a>
-            <a href="unblocker.html?scrlcbp=." class="nav-item protected">💻 Iframe-unblocked</a>
+            <a href="index.html" class="nav-item active">🏠 Home</a>
+            <a href="games.html" class="nav-item protected">🎮 Games</a>
+            <a href="transfer.html" class="nav-item protected">🔌 Transfer</a>
+            <a href="unblocker.html" class="nav-item protected">💻 Iframe-unblocked</a>
         </div>
 
         <div class="auth-container">
@@ -61,17 +34,17 @@
             <h1 class="page-title">Welcome to kguse</h1>
         </div>
 
-        <div style="max-width: 800px; margin: 40px auto; text-align: center; background: white; padding: 50px; border-radius: 15px; border: 1px solid var(--border-color);">
-            <h2 style="color: var(--dark-blue); font-size: 2.5rem; margin-bottom: 10px;">kguse</h2>
-            <p style="font-size: 1.2rem; color: var(--text-main); line-height: 1.6;">
+        <div class="hero-card">
+            <h1>kguse</h1>
+            <p>
                 The ultimate hub for unblocked computer games and TI-84 Plus CE calculator tools.
             </p>
 
-            <div style="display: flex; gap: 20px; justify-content: center; margin-top: 30px;">
-                <a href="games.html" class="btn-usb protected" style="text-decoration: none; display: inline-block;">
+            <div class="hero-buttons">
+                <a href="games.html" class="btn-primary protected">
                     Browse Games
                 </a>
-                <a href="transfer.html" class="btn-usb protected" style="text-decoration: none; display: inline-block; background: var(--dark-blue);">
+                <a href="transfer.html" class="btn-secondary protected">
                     TI-84 Transfer
                 </a>
             </div>
@@ -81,29 +54,25 @@
     <script>
         window.addEventListener('load', async function () {
             await Clerk.load();
-
             const userButtonDiv = document.getElementById('user-button');
             const signInDiv = document.getElementById('sign-in-button');
             const protectedItems = document.querySelectorAll('.protected');
 
             if (Clerk.user) {
-                // USER LOGGED IN
                 Clerk.mountUserButton(userButtonDiv);
             } else {
-                // USER LOGGED OUT
                 const btn = document.createElement('button');
                 btn.innerText = "Sign In";
-                btn.className = "btn-usb";
+                btn.className = "btn-primary"; // Styled with neon green
                 btn.onclick = () => Clerk.openSignIn();
                 signInDiv.appendChild(btn);
 
-                // Add protection logic
                 protectedItems.forEach(item => {
                     item.classList.add('locked');
-                    item.addEventListener('click', function(e) {
-                        e.preventDefault(); // Stop the link from opening
+                    item.addEventListener('click', (e) => {
+                        e.preventDefault();
                         alert("Please sign in to access this feature!");
-                        Clerk.openSignIn(); // Prompt login
+                        Clerk.openSignIn();
                     });
                 });
             }
