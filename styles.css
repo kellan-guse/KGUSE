@@ -1,15 +1,21 @@
 :root {
-    /* Cyber Dark & Lime Palette */
-    --primary-lime: #bef264;         /* Bright Lime accent */
-    --vibrant-lime: #84cc16;         /* Stronger Lime for hover/headers */
-    --sidebar-bg: #020617;           /* Near black for sidebar */
-    --bg-dark: #0f172a;              /* Deep navy/black for main background */
-    --surface-card: #1e293b;         /* Dark slate for cards and buttons */
-    --text-main: #f8fafc;            /* Crisp white text */
-    --text-muted: #94a3b8;           /* Muted grey for subtext */
-    --border-color: #334155;         /* Subtle dark border */
+    /* Neon Green Palette */
+    --neon-green: #39ff14;          /* Pure Neon Green */
+    --lime-accent: #bef264;         /* Brighter Lime for text */
+    --deep-green: #15803d;          /* Darker Green for shadows */
+    
+    /* Dark Backgrounds (No White Allowed) */
+    --bg-black: #020617;            /* Deepest black for sidebar/cards */
+    --bg-dark: #0f172a;             /* Main background slate */
+    --surface-dark: #1e293b;        /* Button/Search backgrounds */
+    
+    /* Text & Borders */
+    --text-main: #f8fafc;           /* Clean white text */
+    --text-muted: #94a3b8;          /* Muted slate for subtext */
+    --border-neon: rgba(57, 255, 20, 0.3); /* Subtle neon border */
 }
 
+/* Global Reset & Dark Mode */
 body {
     font-family: 'Segoe UI', system-ui, sans-serif;
     margin: 0;
@@ -20,25 +26,25 @@ body {
     overflow: hidden;
 }
 
-/* --- Global Sidebar --- */
+/* --- Sidebar (Deep Black) --- */
 .sidebar {
     width: 240px;
-    background-color: var(--sidebar-bg);
+    background-color: var(--bg-black);
     color: white;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-    border-right: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-neon);
 }
 
 .logo-area {
     padding: 25px;
     font-size: 1.8rem;
     font-weight: 800;
-    color: var(--primary-lime);
+    color: var(--neon-green);
     text-align: center;
-    border-bottom: 1px solid var(--border-color);
-    text-transform: lowercase; /* Matches 'kguse' branding */
+    border-bottom: 1px solid var(--border-neon);
+    text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
 }
 
 .nav-links { flex: 1; padding: 20px 0; }
@@ -53,41 +59,42 @@ body {
 }
 
 .nav-item:hover, .nav-item.active {
-    color: var(--primary-lime);
-    background: rgba(190, 242, 100, 0.05);
-    border-left: 4px solid var(--primary-lime);
+    color: var(--neon-green);
+    background: rgba(57, 255, 20, 0.05);
+    border-left: 4px solid var(--neon-green);
 }
 
-/* --- Layout Containers --- */
+/* --- Main Content Area --- */
 .main-content {
     flex: 1;
     overflow-y: auto;
     padding: 40px;
 }
 
-/* --- Hero Card (Darkened) --- */
+/* --- Homepage Hero Card (FIXED: NO WHITE) --- */
 .hero-card {
-    background: var(--sidebar-bg);
+    background: var(--bg-black);
     border-radius: 24px;
-    padding: 60px 40px;
+    padding: 80px 40px;
     text-align: center;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    border: 2px solid var(--border-neon);
+    box-shadow: 0 0 40px rgba(57, 255, 20, 0.1); /* Neon glow */
     margin: 20px auto 40px auto;
     max-width: 800px;
 }
 
 .hero-card h1 {
-    color: var(--primary-lime);
-    font-size: 3.5rem;
+    color: var(--neon-green);
+    font-size: 4rem;
     margin: 0 0 10px 0;
-    letter-spacing: -1px;
+    letter-spacing: -2px;
+    text-shadow: 0 0 20px rgba(57, 255, 20, 0.6); /* Glowing text */
 }
 
 .hero-card p {
     color: var(--text-muted);
-    font-size: 1.1rem;
-    margin-bottom: 30px;
+    font-size: 1.2rem;
+    margin-bottom: 40px;
 }
 
 .hero-buttons {
@@ -106,19 +113,13 @@ body {
     z-index: 10;
 }
 
-.search-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
 #gameSearch {
     width: 100%;
     padding: 18px 25px 18px 55px;
     border-radius: 12px;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border-neon);
     font-size: 1.1rem;
-    background-color: var(--surface-card);
+    background-color: var(--surface-dark);
     color: white;
     outline: none;
     transition: all 0.3s ease;
@@ -126,45 +127,72 @@ body {
 }
 
 #gameSearch:focus {
-    border-color: var(--primary-lime);
-    box-shadow: 0 0 0 4px rgba(190, 242, 100, 0.15);
+    border-color: var(--neon-green);
+    box-shadow: 0 0 15px rgba(57, 255, 20, 0.3);
 }
 
+/* Search Icon (Neon Green SVG) */
 .search-wrapper::before {
     content: "";
     position: absolute;
     left: 20px;
     width: 20px;
     height: 20px;
-    /* SVG Icon color changed to Lime */
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23bef264' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' /%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2339ff14' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' /%3E%3C/svg%3E");
     background-repeat: no-repeat;
     z-index: 11;
+}
+
+/* --- Buttons --- */
+.btn-primary, .btn-usb {
+    background: var(--neon-green);
+    color: var(--bg-black); /* Dark text on neon for legibility */
+    border: none;
+    padding: 14px 32px;
+    border-radius: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.2s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary:hover, .btn-usb:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px var(--neon-green);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--neon-green);
+    padding: 14px 32px;
+    border-radius: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    border: 2px solid var(--neon-green);
+    transition: 0.2s;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(57, 255, 20, 0.1);
 }
 
 /* --- Game List/Grid --- */
 .letter-header {
     font-size: 1.5rem;
     font-weight: 800;
-    color: var(--vibrant-lime);
-    border-bottom: 2px solid var(--border-color);
+    color: var(--lime-accent);
+    border-bottom: 2px solid var(--border-neon);
     margin-bottom: 20px;
     padding-bottom: 5px;
 }
 
-.buttons-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 12px;
-}
-
 .game-btn {
-    background: var(--surface-card);
-    border: 1px solid var(--border-color);
+    background: var(--surface-dark);
+    border: 1px solid var(--border-neon);
     padding: 15px 25px;
     border-radius: 8px;
     cursor: pointer;
-    text-align: left;
     color: var(--text-main);
     font-weight: 600;
     transition: 0.2s;
@@ -176,64 +204,27 @@ body {
 
 .game-btn:hover {
     transform: translateX(5px);
-    border-color: var(--primary-lime);
-    background: #334155;
-    color: var(--primary-lime);
+    border-color: var(--neon-green);
+    background: var(--bg-black);
+    color: var(--neon-green);
 }
 
 .game-btn::after {
     content: '→';
-    color: var(--primary-lime);
-    opacity: 0.8;
+    color: var(--neon-green);
 }
 
-/* --- TI-84 Tools & Buttons --- */
-.btn-usb, .btn-usb-top, .btn-primary {
-    background: var(--vibrant-lime);
-    color: #020617; /* Dark text on bright button for readability */
-    border: none;
-    padding: 12px 28px;
-    border-radius: 10px;
-    font-weight: 800;
-    cursor: pointer;
-    transition: 0.2s;
-    text-decoration: none;
-    display: inline-block;
-}
-
-.btn-usb:hover, .btn-usb-top:hover, .btn-primary:hover {
-    background: var(--primary-lime);
-    transform: translateY(-2px);
-    box-shadow: 0 0 15px rgba(132, 204, 22, 0.4);
-}
-
-.btn-secondary {
-    background-color: transparent;
-    color: var(--primary-lime);
-    padding: 12px 28px;
-    border-radius: 10px;
-    font-weight: bold;
-    text-decoration: none;
-    border: 1px solid var(--primary-lime);
-    transition: 0.2s;
-}
-
-.btn-secondary:hover {
-    background-color: var(--primary-lime);
-    color: #020617;
-}
-
+/* --- TI-84 Drop Zone --- */
 .drop-zone {
-    border: 3px dashed var(--border-color);
+    border: 3px dashed var(--border-neon);
     border-radius: 15px;
     padding: 80px 40px;
     text-align: center;
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--bg-black);
     transition: 0.3s;
-    cursor: pointer;
 }
 
 .drop-zone.dragover {
-    border-color: var(--primary-lime);
-    background: rgba(190, 242, 100, 0.05);
+    border-color: var(--neon-green);
+    background: rgba(57, 255, 20, 0.05);
 }
