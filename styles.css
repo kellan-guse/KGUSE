@@ -3,10 +3,10 @@
     --neon-green: #39ff14;          
     --vibrant-lime: #84cc16;        
     
-    /* Dark Backgrounds */
-    --bg-black: #020617;            /* Sidebar & Cards */
+    /* Dark Backgrounds (No White Allowed) */
+    --bg-black: #020617;            /* Sidebar & Hero Card */
     --bg-dark: #0f172a;             /* Main Page Background */
-    --surface-dark: #1e293b;        /* Buttons & Inputs */
+    --surface-dark: #1e293b;        /* Button/Search Backgrounds */
     
     /* Text & Borders */
     --text-main: #f8fafc;           
@@ -14,18 +14,18 @@
     --border-neon: rgba(57, 255, 20, 0.2); 
 }
 
-/* Global Reset */
+/* Global Reset & Dark Mode */
 body {
     font-family: 'Segoe UI', system-ui, sans-serif;
     margin: 0;
-    background-color: var(--bg-dark);
+    background-color: var(--bg-dark); /* Removes page flashbang */
     color: var(--text-main);
     display: flex;
     height: 100vh;
     overflow: hidden;
 }
 
-/* --- Sidebar --- */
+/* --- Sidebar (Deep Black) --- */
 .sidebar {
     width: 240px;
     background-color: var(--bg-black);
@@ -70,15 +70,9 @@ body {
     padding: 40px;
 }
 
-.page-title {
-    color: var(--text-main);
-    margin: 0 0 20px 0;
-    font-size: 2rem;
-}
-
-/* --- Homepage Hero Card (Flashbang Fixed) --- */
+/* --- Homepage Hero Card (FIXED: NO WHITE) --- */
 .hero-card {
-    background: var(--bg-black);
+    background: var(--bg-black) !important; /* Forces dark background */
     border-radius: 24px;
     padding: 80px 40px;
     text-align: center;
@@ -98,17 +92,37 @@ body {
 .hero-card p {
     color: var(--text-muted);
     font-size: 1.2rem;
-    line-height: 1.6;
+    margin-bottom: 40px;
 }
 
-.hero-buttons {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    margin-top: 30px;
+/* --- Search Bar Refresh --- */
+.search-container {
+    margin-bottom: 40px;
+    position: sticky;
+    top: 0;
+    background: var(--bg-dark);
+    padding: 15px 0;
+    z-index: 10;
 }
 
-/* --- Game Grid (Restored Spacing) --- */
+#gameSearch {
+    width: 100%;
+    padding: 18px 25px 18px 55px;
+    border-radius: 12px;
+    border: 1px solid var(--border-neon);
+    font-size: 1.1rem;
+    background-color: var(--surface-dark);
+    color: white;
+    outline: none;
+    box-sizing: border-box;
+}
+
+#gameSearch:focus {
+    border-color: var(--neon-green);
+    box-shadow: 0 0 15px rgba(57, 255, 20, 0.3);
+}
+
+/* --- RESTORED GAME GRID SPACING --- */
 .letter-section { margin-bottom: 40px; }
 
 .letter-header {
@@ -120,6 +134,7 @@ body {
     padding-bottom: 5px;
 }
 
+/* This fixes the spacing issue from the screenshots */
 .buttons-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -145,34 +160,22 @@ body {
 .game-btn:hover {
     transform: translateX(5px);
     border-color: var(--neon-green);
-    color: var(--neon-green);
     background: var(--bg-black);
+    color: var(--neon-green);
 }
 
-/* --- Search Bar --- */
-#gameSearch {
-    width: 100%;
-    padding: 15px 20px;
-    border-radius: 10px;
-    border: 1px solid var(--border-neon);
-    background-color: var(--surface-dark);
-    color: white;
-    outline: none;
-    box-sizing: border-box;
-}
-
-#gameSearch:focus {
-    border-color: var(--neon-green);
-    box-shadow: 0 0 10px rgba(57, 255, 20, 0.2);
+.game-btn::after {
+    content: '→';
+    color: var(--neon-green);
 }
 
 /* --- Buttons & Auth --- */
-.btn-usb, .btn-primary {
+.btn-primary, .btn-usb {
     background: var(--neon-green);
     color: var(--bg-black);
     border: none;
-    padding: 12px 28px;
-    border-radius: 10px;
+    padding: 14px 32px;
+    border-radius: 12px;
     font-weight: 800;
     cursor: pointer;
     text-decoration: none;
@@ -182,8 +185,8 @@ body {
     background: transparent;
     color: var(--neon-green);
     border: 2px solid var(--neon-green);
-    padding: 12px 28px;
-    border-radius: 10px;
+    padding: 14px 32px;
+    border-radius: 12px;
     font-weight: 700;
     text-decoration: none;
 }
@@ -192,4 +195,10 @@ body {
     margin-top: auto;
     padding: 20px;
     border-top: 1px solid var(--border-neon);
+}
+
+/* Locked state for protected links */
+.locked {
+    opacity: 0.6;
+    cursor: not-allowed !important;
 }
