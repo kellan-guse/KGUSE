@@ -1,23 +1,22 @@
 :root {
     /* Hacker Green Palette */
-    --neon-green: #00ff41;          /* Classic Matrix/Terminal Green */
-    --vibrant-lime: #008f11;        /* Darker Hacker Green for accents */
-    --glitch-green: rgba(0, 255, 65, 0.15);
+    --neon-green: #39ff14;          
+    --vibrant-lime: #00ff41;        
     
-    /* ABSOLUTE BLACK (No Blue/Navy/Slate Allowed) */
+    /* TRUE BLACK - No more blue tint */
     --bg-black: #000000;            /* Sidebar & Hero Card */
     --bg-dark: #000000;             /* Main Page Background */
-    --surface-dark: #0a0a0a;        /* Slightly lifted black for depth */
+    --surface-dark: #0a0a0a;        /* Button Backgrounds */
     
     /* Text & Borders */
-    --text-main: #00ff41;           /* Green text by default for hacker vibe */
-    --text-muted: #008f11;          /* Dimmer green for secondary text */
-    --border-neon: #00ff41; 
+    --text-main: #00ff41;           
+    --text-muted: #008f11;          
+    --border-neon: #39ff14; 
 }
 
 /* Global Reset */
 body {
-    font-family: 'Courier New', Courier, monospace; /* Monospace for hacker feel */
+    font-family: 'Courier New', Courier, monospace;
     margin: 0;
     background-color: var(--bg-dark); 
     color: var(--text-main);
@@ -26,15 +25,14 @@ body {
     overflow: hidden;
 }
 
-/* --- Sidebar (Pure Black) --- */
+/* --- Sidebar --- */
 .sidebar {
     width: 240px;
     background-color: var(--bg-black);
-    color: var(--neon-green);
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-    border-right: 1px solid var(--border-neon);
+    border-right: 2px solid var(--border-neon);
 }
 
 .logo-area {
@@ -43,60 +41,71 @@ body {
     font-weight: 800;
     color: var(--neon-green);
     text-align: center;
-    border-bottom: 1px solid var(--border-neon);
-    /* CRT Glow Effect */
-    text-shadow: 0 0 8px rgba(0, 255, 65, 0.8);
+    border-bottom: 2px solid var(--border-neon);
+    text-shadow: 0 0 10px var(--neon-green);
 }
 
-.nav-item:hover, .nav-item.active {
-    color: var(--bg-black);
-    background: var(--neon-green); /* Inverted look on hover */
-    border-left: none;
+/* --- Main Content Area --- */
+.main-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 40px;
+    background-color: #000000;
 }
 
-/* --- Hero Card (Matrix Style) --- */
-.hero-card {
-    background: var(--bg-black) !important;
-    border-radius: 0px; /* Sharp corners for terminal look */
-    padding: 80px 40px;
-    text-align: center;
-    border: 1px solid var(--border-neon);
-    box-shadow: 0 0 20px var(--glitch-green); 
-    margin: 20px auto 40px auto;
+/* --- Fixed Search Bar --- */
+.search-container {
+    margin-bottom: 30px;
 }
 
-/* --- Search Bar --- */
 #gameSearch {
     width: 100%;
-    padding: 18px 25px;
+    max-width: 600px; /* Limits width so it doesn't stretch forever */
+    padding: 15px;
     border: 1px solid var(--border-neon);
-    background-color: var(--bg-black);
+    background-color: #000000;
     color: var(--neon-green);
-    font-family: 'Courier New', Courier, monospace;
     outline: none;
+    font-family: inherit;
 }
 
-#gameSearch::placeholder {
-    color: var(--vibrant-lime);
+/* --- FIXED BUTTONS (The Grid Fix) --- */
+.buttons-container {
+    display: grid;
+    /* This ensures buttons are structured and don't collapse */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    width: 100%;
 }
 
-/* --- Game Grid --- */
 .game-btn {
-    background: var(--bg-black);
-    border: 1px solid var(--vibrant-lime);
+    background: #000000;
+    border: 1px solid var(--border-neon);
+    padding: 15px 20px;
+    cursor: pointer;
+    text-align: left;
     color: var(--neon-green);
-    border-radius: 0px;
-    transition: 0.1s;
+    font-weight: bold;
+    text-decoration: none;
+    display: block; /* Ensures the whole box is clickable */
+    transition: 0.2s;
 }
 
 .game-btn:hover {
     background: var(--neon-green);
-    color: var(--bg-black);
-    transform: none; /* Removed slide for a snappier terminal feel */
+    color: #000000;
 }
 
+/* Adds the [EXE] tag from your screenshot */
 .game-btn::after {
-    content: '[EXE]'; /* Hacker-themed indicator */
+    content: '[EXE]';
+    float: right;
     font-size: 0.8rem;
-    color: inherit;
+}
+
+.letter-header {
+    font-size: 1.5rem;
+    color: var(--neon-green);
+    border-bottom: 1px solid var(--border-neon);
+    margin: 20px 0;
 }
