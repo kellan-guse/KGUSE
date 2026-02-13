@@ -1,22 +1,23 @@
 :root {
-    /* Hacker Green Palette */
+    /* Main Theme: Various Shades of Neon Green */
     --neon-green: #39ff14;          
-    --vibrant-lime: #00ff41;        
+    --vibrant-lime: #a3ff33;        
+    --dark-green-accent: #052e16;   /* For text readability on green backgrounds */
     
-    /* TRUE BLACK - No more blue tint */
-    --bg-black: #000000;            /* Sidebar & Hero Card */
-    --bg-dark: #000000;             /* Main Page Background */
-    --surface-dark: #0a0a0a;        /* Button Backgrounds */
+    /* Light/Green Backgrounds */
+    --bg-black: #39ff14;            /* Now Neon Green */
+    --bg-dark: #bcfd49;             /* Slightly softer lime for main body */
+    --surface-dark: #ccff66;        /* Even lighter for inputs/buttons */
     
     /* Text & Borders */
-    --text-main: #00ff41;           
-    --text-muted: #008f11;          
-    --border-neon: #39ff14; 
+    --text-main: #052e16;           /* Dark green for contrast */
+    --text-muted: #166534;          
+    --border-neon: #052e16;         /* Dark borders to define shapes */
 }
 
-/* Global Reset */
+/* Global Reset & Ultra-Green Mode */
 body {
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Segoe UI', system-ui, sans-serif;
     margin: 0;
     background-color: var(--bg-dark); 
     color: var(--text-main);
@@ -25,24 +26,40 @@ body {
     overflow: hidden;
 }
 
-/* --- Sidebar --- */
+/* --- Sidebar (Solid Neon) --- */
 .sidebar {
     width: 240px;
-    background-color: var(--bg-black);
+    background-color: var(--neon-green);
+    color: var(--dark-green-accent);
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-    border-right: 2px solid var(--border-neon);
+    border-right: 2px solid var(--dark-green-accent);
 }
 
 .logo-area {
     padding: 25px;
     font-size: 1.8rem;
     font-weight: 800;
-    color: var(--neon-green);
+    color: var(--dark-green-accent);
     text-align: center;
-    border-bottom: 2px solid var(--border-neon);
-    text-shadow: 0 0 10px var(--neon-green);
+    border-bottom: 2px solid var(--dark-green-accent);
+}
+
+.nav-links { flex: 1; padding: 20px 0; }
+
+.nav-item {
+    display: block;
+    padding: 15px 25px;
+    color: var(--dark-green-accent);
+    text-decoration: none;
+    font-weight: 700;
+    transition: 0.2s;
+}
+
+.nav-item:hover, .nav-item.active {
+    color: white;
+    background: var(--dark-green-accent);
 }
 
 /* --- Main Content Area --- */
@@ -50,62 +67,112 @@ body {
     flex: 1;
     overflow-y: auto;
     padding: 40px;
-    background-color: #000000;
 }
 
-/* --- Fixed Search Bar --- */
+/* --- Hero Card (Green Overload) --- */
+.hero-card {
+    background: var(--neon-green) !important;
+    border-radius: 24px;
+    padding: 80px 40px;
+    text-align: center;
+    border: 4px solid var(--dark-green-accent);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); 
+    margin: 20px auto 40px auto;
+    max-width: 800px;
+}
+
+.hero-card h1 {
+    color: var(--dark-green-accent);
+    font-size: 4rem;
+    margin: 0 0 10px 0;
+}
+
+.hero-card p {
+    color: var(--dark-green-accent);
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 40px;
+}
+
+/* --- Search Bar --- */
 .search-container {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
+    position: sticky;
+    top: 0;
+    background: var(--bg-dark);
+    padding: 15px 0;
+    z-index: 10;
 }
 
 #gameSearch {
     width: 100%;
-    max-width: 600px; /* Limits width so it doesn't stretch forever */
-    padding: 15px;
-    border: 1px solid var(--border-neon);
-    background-color: #000000;
-    color: var(--neon-green);
+    padding: 18px 25px 18px 55px;
+    border-radius: 12px;
+    border: 2px solid var(--dark-green-accent);
+    font-size: 1.1rem;
+    background-color: white; /* White helps users find the search bar easily */
+    color: black;
     outline: none;
-    font-family: inherit;
+    box-sizing: border-box;
 }
 
-/* --- FIXED BUTTONS (The Grid Fix) --- */
+/* --- Game Grid --- */
+.letter-header {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--dark-green-accent);
+    border-bottom: 3px solid var(--dark-green-accent);
+    margin-bottom: 20px;
+}
+
 .buttons-container {
     display: grid;
-    /* This ensures buttons are structured and don't collapse */
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 15px;
-    width: 100%;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
 }
 
 .game-btn {
-    background: #000000;
-    border: 1px solid var(--border-neon);
-    padding: 15px 20px;
+    background: var(--surface-dark);
+    border: 2px solid var(--dark-green-accent);
+    padding: 15px 25px;
+    border-radius: 8px;
     cursor: pointer;
     text-align: left;
-    color: var(--neon-green);
-    font-weight: bold;
-    text-decoration: none;
-    display: block; /* Ensures the whole box is clickable */
+    color: var(--dark-green-accent);
+    font-weight: 700;
     transition: 0.2s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
 }
 
 .game-btn:hover {
-    background: var(--neon-green);
-    color: #000000;
-}
-
-/* Adds the [EXE] tag from your screenshot */
-.game-btn::after {
-    content: '[EXE]';
-    float: right;
-    font-size: 0.8rem;
-}
-
-.letter-header {
-    font-size: 1.5rem;
+    transform: scale(1.02);
+    background: var(--dark-green-accent);
     color: var(--neon-green);
-    border-bottom: 1px solid var(--border-neon);
-    margin: 20px 0;
+}
+
+.game-btn::after {
+    content: '→';
+}
+
+/* --- Action Buttons --- */
+.btn-primary {
+    background: var(--dark-green-accent);
+    color: var(--neon-green);
+    border: none;
+    padding: 14px 32px;
+    border-radius: 12px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--dark-green-accent);
+    border: 2px solid var(--dark-green-accent);
+    padding: 14px 32px;
+    border-radius: 12px;
+    font-weight: 700;
 }
