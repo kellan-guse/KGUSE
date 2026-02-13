@@ -1,178 +1,141 @@
 :root {
-    /* Main Theme: Various Shades of Neon Green */
+    /* Neon Green Palette */
     --neon-green: #39ff14;          
-    --vibrant-lime: #a3ff33;        
-    --dark-green-accent: #052e16;   /* For text readability on green backgrounds */
+    --neon-glow: rgba(57, 255, 20, 0.6);
+    --neon-border: rgba(57, 255, 20, 0.3);
     
-    /* Light/Green Backgrounds */
-    --bg-black: #39ff14;            /* Now Neon Green */
-    --bg-dark: #bcfd49;             /* Slightly softer lime for main body */
-    --surface-dark: #ccff66;        /* Even lighter for inputs/buttons */
+    /* Pure Black Backgrounds */
+    --bg-black: #000000;            /* Sidebar & Hero Card */
+    --bg-dark: #050505;             /* Main Page Background */
+    --surface-dark: #0a0a0a;        /* Button/Search Backgrounds */
     
-    /* Text & Borders */
-    --text-main: #052e16;           /* Dark green for contrast */
-    --text-muted: #166534;          
-    --border-neon: #052e16;         /* Dark borders to define shapes */
+    /* Text & Accents */
+    --text-main: #ffffff;           
+    --text-muted: #888888;          
 }
 
-/* Global Reset & Ultra-Green Mode */
+/* Global Reset */
 body {
     font-family: 'Segoe UI', system-ui, sans-serif;
     margin: 0;
-    background-color: var(--bg-dark); 
+    background-color: var(--bg-dark);
     color: var(--text-main);
     display: flex;
     height: 100vh;
     overflow: hidden;
 }
 
-/* --- Sidebar (Solid Neon) --- */
+/* --- Sidebar with Glowing Edge --- */
 .sidebar {
     width: 240px;
-    background-color: var(--neon-green);
-    color: var(--dark-green-accent);
+    background-color: var(--bg-black);
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-    border-right: 2px solid var(--dark-green-accent);
+    border-right: 2px solid var(--neon-green);
+    box-shadow: 5px 0 15px rgba(57, 255, 20, 0.2);
 }
 
 .logo-area {
     padding: 25px;
     font-size: 1.8rem;
     font-weight: 800;
-    color: var(--dark-green-accent);
+    color: var(--neon-green);
     text-align: center;
-    border-bottom: 2px solid var(--dark-green-accent);
+    /* Intense Text Glow */
+    text-shadow: 0 0 10px var(--neon-glow), 0 0 20px var(--neon-glow);
+    border-bottom: 1px solid var(--neon-border);
 }
-
-.nav-links { flex: 1; padding: 20px 0; }
 
 .nav-item {
     display: block;
     padding: 15px 25px;
-    color: var(--dark-green-accent);
+    color: var(--text-muted);
     text-decoration: none;
-    font-weight: 700;
-    transition: 0.2s;
+    font-weight: 600;
+    transition: 0.3s;
 }
 
 .nav-item:hover, .nav-item.active {
-    color: white;
-    background: var(--dark-green-accent);
+    color: var(--neon-green);
+    background: rgba(57, 255, 20, 0.05);
+    /* Subtle inner glow on hover */
+    text-shadow: 0 0 8px var(--neon-glow);
 }
 
-/* --- Main Content Area --- */
-.main-content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 40px;
-}
-
-/* --- Hero Card (Green Overload) --- */
+/* --- Hero Card with Outer Glow --- */
 .hero-card {
-    background: var(--neon-green) !important;
+    background: var(--bg-black) !important;
     border-radius: 24px;
     padding: 80px 40px;
     text-align: center;
-    border: 4px solid var(--dark-green-accent);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); 
+    border: 2px solid var(--neon-green);
+    /* Massive Glow Effect */
+    box-shadow: 0 0 30px rgba(57, 255, 20, 0.2), inset 0 0 15px rgba(57, 255, 20, 0.1); 
     margin: 20px auto 40px auto;
     max-width: 800px;
 }
 
 .hero-card h1 {
-    color: var(--dark-green-accent);
+    color: var(--neon-green);
     font-size: 4rem;
-    margin: 0 0 10px 0;
+    margin: 0;
+    text-shadow: 0 0 20px var(--neon-glow);
 }
 
-.hero-card p {
-    color: var(--dark-green-accent);
-    font-size: 1.2rem;
-    font-weight: 500;
-    margin-bottom: 40px;
-}
-
-/* --- Search Bar --- */
-.search-container {
-    margin-bottom: 40px;
-    position: sticky;
-    top: 0;
-    background: var(--bg-dark);
-    padding: 15px 0;
-    z-index: 10;
-}
-
+/* --- Search & Inputs --- */
 #gameSearch {
     width: 100%;
-    padding: 18px 25px 18px 55px;
+    padding: 18px 25px;
     border-radius: 12px;
-    border: 2px solid var(--dark-green-accent);
-    font-size: 1.1rem;
-    background-color: white; /* White helps users find the search bar easily */
-    color: black;
+    border: 1px solid var(--neon-border);
+    background-color: var(--surface-dark);
+    color: white;
     outline: none;
-    box-sizing: border-box;
+    transition: 0.3s;
 }
 
-/* --- Game Grid --- */
-.letter-header {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--dark-green-accent);
-    border-bottom: 3px solid var(--dark-green-accent);
-    margin-bottom: 20px;
+#gameSearch:focus {
+    border-color: var(--neon-green);
+    box-shadow: 0 0 15px var(--neon-glow);
 }
 
-.buttons-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 12px;
-}
-
+/* --- Glowing Game Buttons --- */
 .game-btn {
     background: var(--surface-dark);
-    border: 2px solid var(--dark-green-accent);
+    border: 1px solid var(--neon-border);
     padding: 15px 25px;
     border-radius: 8px;
-    cursor: pointer;
-    text-align: left;
-    color: var(--dark-green-accent);
-    font-weight: 700;
+    color: var(--text-main);
+    font-weight: 600;
     transition: 0.2s;
+    text-decoration: none;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    text-decoration: none;
 }
 
 .game-btn:hover {
-    transform: scale(1.02);
-    background: var(--dark-green-accent);
+    border-color: var(--neon-green);
+    background: var(--bg-black);
     color: var(--neon-green);
+    box-shadow: 0 0 10px var(--neon-glow);
+    transform: translateY(-2px);
 }
 
-.game-btn::after {
-    content: '→';
-}
-
-/* --- Action Buttons --- */
+/* --- Primary Action Button --- */
 .btn-primary {
-    background: var(--dark-green-accent);
-    color: var(--neon-green);
+    background: var(--neon-green);
+    color: #000;
     border: none;
     padding: 14px 32px;
     border-radius: 12px;
     font-weight: 800;
     cursor: pointer;
+    box-shadow: 0 0 20px var(--neon-glow);
+    transition: 0.3s;
 }
 
-.btn-secondary {
-    background: transparent;
-    color: var(--dark-green-accent);
-    border: 2px solid var(--dark-green-accent);
-    padding: 14px 32px;
-    border-radius: 12px;
-    font-weight: 700;
+.btn-primary:hover {
+    box-shadow: 0 0 30px var(--neon-green);
+    transform: scale(1.05);
 }
