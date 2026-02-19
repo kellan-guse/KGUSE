@@ -1,20 +1,16 @@
 :root {
-    /* Neon Green Palette */
     --neon-green: #39ff14;          
     --neon-glow: rgba(57, 255, 20, 0.6);
     --neon-border: rgba(57, 255, 20, 0.3);
     
-    /* Pure Black Backgrounds */
     --bg-black: #000000;            
     --bg-dark: #050505;             
     --surface-dark: #0a0a0a;        
     
-    /* Text & Accents */
     --text-main: #ffffff;           
     --text-muted: #888888;          
 }
 
-/* Global Reset */
 body {
     font-family: 'Segoe UI', system-ui, sans-serif;
     margin: 0;
@@ -25,7 +21,7 @@ body {
     overflow: hidden;
 }
 
-/* --- Sidebar --- */
+/* --- Sidebar (Black Background) --- */
 .sidebar {
     width: 240px;
     background-color: var(--bg-black);
@@ -33,17 +29,22 @@ body {
     flex-direction: column;
     flex-shrink: 0;
     border-right: 2px solid var(--neon-green);
-    box-shadow: 5px 0 15px rgba(57, 255, 20, 0.2);
 }
 
 .logo-area {
-    padding: 25px;
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: var(--neon-green);
-    text-align: center;
-    text-shadow: 0 0 10px var(--neon-glow);
+    padding: 30px 20px;
+    background-color: var(--bg-black);
+    display: flex;
+    justify-content: center;
     border-bottom: 1px solid var(--neon-border);
+}
+
+.sidebar-logo {
+    width: 100%;
+    max-width: 140px;
+    height: auto;
+    /* Forces the SVG to glow neon green */
+    filter: drop-shadow(0 0 8px var(--neon-glow));
 }
 
 .nav-links { flex: 1; padding: 20px 0; }
@@ -60,140 +61,75 @@ body {
 .nav-item:hover, .nav-item.active {
     color: var(--neon-green);
     background: rgba(57, 255, 20, 0.05);
-    text-shadow: 0 0 8px var(--neon-glow);
     border-left: 4px solid var(--neon-green);
 }
 
-/* --- Main Content Area --- */
+/* --- Main Content --- */
 .main-content {
     flex: 1;
     overflow-y: auto;
-    padding: 40px;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* --- Hero Card (Centered) --- */
+.page-header { width: 100%; max-width: 800px; margin-bottom: 20px; }
+
+/* --- Hero Card (Pure Black with Green Border) --- */
 .hero-card {
-    background: var(--bg-black) !important;
+    background-color: var(--bg-black);
+    border: 2px solid var(--neon-green);
     border-radius: 24px;
     padding: 80px 40px;
     text-align: center;
-    border: 2px solid var(--neon-green);
-    box-shadow: 0 0 30px rgba(57, 255, 20, 0.2), inset 0 0 15px rgba(57, 255, 20, 0.1); 
-    width: 90%;
+    box-shadow: 0 0 30px rgba(57, 255, 20, 0.2);
+    width: 100%;
     max-width: 800px;
-    margin: 0 auto 40px auto; /* "auto" left/right centers the card */
 }
 
-.hero-card h1 {
-    color: var(--neon-green);
-    font-size: 4rem;
-    margin: 0 0 10px 0;
-    text-shadow: 0 0 20px var(--neon-glow);
+.hero-logo {
+    width: 320px;
+    height: auto;
+    filter: drop-shadow(0 0 15px var(--neon-glow));
+    margin-bottom: 20px;
 }
 
 .hero-card p {
     color: var(--text-muted);
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     margin-bottom: 40px;
 }
 
-/* --- Centered Search Bar --- */
-.search-container {
-    width: 100%;
-    max-width: 800px; 
-    margin: 0 auto 40px auto; /* "auto" left/right centers the search bar */
-    position: sticky;
-    top: 0;
-    background: var(--bg-dark);
-    padding: 15px 0;
-    z-index: 10;
+/* --- Buttons --- */
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
 }
 
-#gameSearch {
-    width: 100%;
-    padding: 18px 25px;
+.btn-primary {
+    background-color: var(--neon-green);
+    color: #000 !important;
+    padding: 14px 28px;
     border-radius: 12px;
-    border: 1px solid var(--neon-border);
-    font-size: 1.1rem;
-    background-color: var(--surface-dark);
-    color: white;
-    outline: none;
-    transition: 0.3s;
-}
-
-#gameSearch:focus {
-    border-color: var(--neon-green);
+    font-weight: 800;
+    text-decoration: none;
     box-shadow: 0 0 15px var(--neon-glow);
 }
 
-/* --- Game Grid (Left Aligned) --- */
-.letter-section { 
-    width: 100%;
-    margin-bottom: 40px; 
-    text-align: left; /* Ensures headers stay left */
-}
-
-.letter-header {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--neon-green);
-    border-bottom: 2px solid var(--neon-border);
-    margin-bottom: 20px;
-    padding-bottom: 5px;
-    text-shadow: 0 0 10px var(--neon-glow);
-}
-
-.buttons-container {
-    display: grid;
-    /* This creates the columns; they will fill from left to right */
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 15px;
-    width: 100%;
-}
-
-.game-btn {
-    background: var(--surface-dark);
-    border: 1px solid var(--neon-border);
-    padding: 15px 25px;
-    border-radius: 8px;
-    cursor: pointer;
-    text-align: left;
-    color: var(--text-main);
+.btn-secondary {
+    color: #0066cc; /* Blue link style from screenshot */
+    text-decoration: underline;
     font-weight: 600;
-    transition: 0.2s;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-decoration: none;
 }
 
-.game-btn:hover {
-    transform: translateX(5px);
-    border-color: var(--neon-green);
-    background: var(--bg-black);
-    color: var(--neon-green);
-    box-shadow: 0 0 10px var(--neon-glow);
-}
-
-.game-btn::after {
-    content: '→';
-    color: var(--neon-green);
-}
-
-/* --- Auth & Buttons --- */
+/* --- Auth Section (Bottom Left) --- */
 .auth-container {
     margin-top: auto;
     padding: 20px;
     border-top: 1px solid var(--neon-border);
 }
 
-.btn-primary {
-    background: var(--neon-green);
-    color: #000;
-    border: none;
-    padding: 14px 32px;
-    border-radius: 12px;
-    font-weight: 800;
-    cursor: pointer;
-    box-shadow: 0 0 15px var(--neon-glow);
-}
+.locked { opacity: 0.5; cursor: not-allowed; }
