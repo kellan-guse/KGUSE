@@ -38,12 +38,25 @@ body {
 
 .logo-area {
     padding: 25px;
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: var(--neon-green);
-    text-align: center;
-    text-shadow: 0 0 10px var(--neon-glow);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-bottom: 1px solid var(--neon-border);
+}
+
+/* SVG Sizing Rules */
+.logo-area img, 
+.logo-area svg {
+    width: 100%;
+    height: auto;
+    max-width: 180px; /* Adjust this to make the logo larger or smaller */
+    display: block;
+    filter: drop-shadow(0 0 10px var(--neon-glow));
+    transition: transform 0.3s ease;
+}
+
+.logo-area img:hover {
+    transform: scale(1.05);
 }
 
 .nav-links { flex: 1; padding: 20px 0; }
@@ -81,7 +94,7 @@ body {
     box-shadow: 0 0 30px rgba(57, 255, 20, 0.2), inset 0 0 15px rgba(57, 255, 20, 0.1); 
     width: 90%;
     max-width: 800px;
-    margin: 0 auto 40px auto; /* "auto" left/right centers the card */
+    margin: 0 auto 40px auto;
 }
 
 .hero-card h1 {
@@ -101,7 +114,7 @@ body {
 .search-container {
     width: 100%;
     max-width: 800px; 
-    margin: 0 auto 40px auto; /* "auto" left/right centers the search bar */
+    margin: 0 auto 40px auto;
     position: sticky;
     top: 0;
     background: var(--bg-dark);
@@ -130,7 +143,7 @@ body {
 .letter-section { 
     width: 100%;
     margin-bottom: 40px; 
-    text-align: left; /* Ensures headers stay left */
+    text-align: left;
 }
 
 .letter-header {
@@ -145,7 +158,6 @@ body {
 
 .buttons-container {
     display: grid;
-    /* This creates the columns; they will fill from left to right */
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 15px;
     width: 100%;
