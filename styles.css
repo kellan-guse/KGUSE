@@ -1,39 +1,39 @@
 :root {
     /* Neon Green Palette */
     --neon-green: #39ff14;          
-    --vibrant-lime: #84cc16;        
+    --neon-glow: rgba(57, 255, 20, 0.6);
+    --neon-border: rgba(57, 255, 20, 0.3);
     
-    /* Dark Backgrounds (No White Allowed) */
-    --bg-black: #020617;            /* Sidebar & Hero Card */
-    --bg-dark: #0f172a;             /* Main Page Background */
-    --surface-dark: #1e293b;        /* Button/Search Backgrounds */
+    /* Pure Black Backgrounds */
+    --bg-black: #000000;            
+    --bg-dark: #050505;             
+    --surface-dark: #0a0a0a;        
     
-    /* Text & Borders */
-    --text-main: #f8fafc;           
-    --text-muted: #94a3b8;          
-    --border-neon: rgba(57, 255, 20, 0.2); 
+    /* Text & Accents */
+    --text-main: #ffffff;           
+    --text-muted: #888888;          
 }
 
-/* Global Reset & Dark Mode */
+/* Global Reset */
 body {
     font-family: 'Segoe UI', system-ui, sans-serif;
     margin: 0;
-    background-color: var(--bg-dark); /* Removes page flashbang */
+    background-color: var(--bg-dark);
     color: var(--text-main);
     display: flex;
     height: 100vh;
     overflow: hidden;
 }
 
-/* --- Sidebar (Deep Black) --- */
+/* --- Sidebar --- */
 .sidebar {
     width: 240px;
     background-color: var(--bg-black);
-    color: white;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-    border-right: 1px solid var(--border-neon);
+    border-right: 2px solid var(--neon-green);
+    box-shadow: 5px 0 15px rgba(57, 255, 20, 0.2);
 }
 
 .logo-area {
@@ -42,8 +42,8 @@ body {
     font-weight: 800;
     color: var(--neon-green);
     text-align: center;
-    border-bottom: 1px solid var(--border-neon);
-    text-shadow: 0 0 10px rgba(57, 255, 20, 0.4);
+    text-shadow: 0 0 10px var(--neon-glow);
+    border-bottom: 1px solid var(--neon-border);
 }
 
 .nav-links { flex: 1; padding: 20px 0; }
@@ -54,12 +54,13 @@ body {
     color: var(--text-muted);
     text-decoration: none;
     font-weight: 600;
-    transition: 0.2s;
+    transition: 0.3s;
 }
 
 .nav-item:hover, .nav-item.active {
     color: var(--neon-green);
     background: rgba(57, 255, 20, 0.05);
+    text-shadow: 0 0 8px var(--neon-glow);
     border-left: 4px solid var(--neon-green);
 }
 
@@ -70,23 +71,24 @@ body {
     padding: 40px;
 }
 
-/* --- Homepage Hero Card (FIXED: NO WHITE) --- */
+/* --- Hero Card (Centered) --- */
 .hero-card {
-    background: var(--bg-black) !important; /* Forces dark background */
+    background: var(--bg-black) !important;
     border-radius: 24px;
     padding: 80px 40px;
     text-align: center;
-    border: 2px solid var(--border-neon);
-    box-shadow: 0 0 40px rgba(57, 255, 20, 0.1); 
-    margin: 20px auto 40px auto;
+    border: 2px solid var(--neon-green);
+    box-shadow: 0 0 30px rgba(57, 255, 20, 0.2), inset 0 0 15px rgba(57, 255, 20, 0.1); 
+    width: 90%;
     max-width: 800px;
+    margin: 0 auto 40px auto; /* "auto" left/right centers the card */
 }
 
 .hero-card h1 {
     color: var(--neon-green);
     font-size: 4rem;
     margin: 0 0 10px 0;
-    text-shadow: 0 0 20px rgba(57, 255, 20, 0.6);
+    text-shadow: 0 0 20px var(--neon-glow);
 }
 
 .hero-card p {
@@ -95,9 +97,11 @@ body {
     margin-bottom: 40px;
 }
 
-/* --- Search Bar Refresh --- */
+/* --- Centered Search Bar --- */
 .search-container {
-    margin-bottom: 40px;
+    width: 100%;
+    max-width: 800px; 
+    margin: 0 auto 40px auto; /* "auto" left/right centers the search bar */
     position: sticky;
     top: 0;
     background: var(--bg-dark);
@@ -107,43 +111,49 @@ body {
 
 #gameSearch {
     width: 100%;
-    padding: 18px 25px 18px 55px;
+    padding: 18px 25px;
     border-radius: 12px;
-    border: 1px solid var(--border-neon);
+    border: 1px solid var(--neon-border);
     font-size: 1.1rem;
     background-color: var(--surface-dark);
     color: white;
     outline: none;
-    box-sizing: border-box;
+    transition: 0.3s;
 }
 
 #gameSearch:focus {
     border-color: var(--neon-green);
-    box-shadow: 0 0 15px rgba(57, 255, 20, 0.3);
+    box-shadow: 0 0 15px var(--neon-glow);
 }
 
-/* --- RESTORED GAME GRID SPACING --- */
-.letter-section { margin-bottom: 40px; }
+/* --- Game Grid (Left Aligned) --- */
+.letter-section { 
+    width: 100%;
+    margin-bottom: 40px; 
+    text-align: left; /* Ensures headers stay left */
+}
 
 .letter-header {
     font-size: 1.5rem;
     font-weight: 800;
     color: var(--neon-green);
-    border-bottom: 2px solid var(--border-neon);
+    border-bottom: 2px solid var(--neon-border);
     margin-bottom: 20px;
     padding-bottom: 5px;
+    text-shadow: 0 0 10px var(--neon-glow);
 }
 
-/* This fixes the spacing issue from the screenshots */
 .buttons-container {
     display: grid;
+    /* This creates the columns; they will fill from left to right */
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 12px;
+    gap: 15px;
+    width: 100%;
 }
 
 .game-btn {
     background: var(--surface-dark);
-    border: 1px solid var(--border-neon);
+    border: 1px solid var(--neon-border);
     padding: 15px 25px;
     border-radius: 8px;
     cursor: pointer;
@@ -162,6 +172,7 @@ body {
     border-color: var(--neon-green);
     background: var(--bg-black);
     color: var(--neon-green);
+    box-shadow: 0 0 10px var(--neon-glow);
 }
 
 .game-btn::after {
@@ -169,36 +180,20 @@ body {
     color: var(--neon-green);
 }
 
-/* --- Buttons & Auth --- */
-.btn-primary, .btn-usb {
+/* --- Auth & Buttons --- */
+.auth-container {
+    margin-top: auto;
+    padding: 20px;
+    border-top: 1px solid var(--neon-border);
+}
+
+.btn-primary {
     background: var(--neon-green);
-    color: var(--bg-black);
+    color: #000;
     border: none;
     padding: 14px 32px;
     border-radius: 12px;
     font-weight: 800;
     cursor: pointer;
-    text-decoration: none;
-}
-
-.btn-secondary {
-    background: transparent;
-    color: var(--neon-green);
-    border: 2px solid var(--neon-green);
-    padding: 14px 32px;
-    border-radius: 12px;
-    font-weight: 700;
-    text-decoration: none;
-}
-
-.auth-container {
-    margin-top: auto;
-    padding: 20px;
-    border-top: 1px solid var(--border-neon);
-}
-
-/* Locked state for protected links */
-.locked {
-    opacity: 0.6;
-    cursor: not-allowed !important;
+    box-shadow: 0 0 15px var(--neon-glow);
 }
