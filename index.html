@@ -16,7 +16,10 @@
 <body>
 
     <nav class="sidebar">
-        <div class="logo-area">kguse</div>
+        <div class="logo-area">
+            <img src="propertyofkgusegames.svg" alt="kguse logo" class="sidebar-logo">
+        </div>
+
         <div class="nav-links">
             <a href="index.html" class="nav-item active">🏠 Home</a>
             <a href="games.html" class="nav-item protected">🎮 Games</a>
@@ -36,7 +39,10 @@
         </div>
 
         <div class="hero-card">
-            <h1>kguse</h1>
+            <div class="hero-logo-container">
+                <img src="propertyofkgusegames.svg" alt="kguse" class="hero-logo">
+            </div>
+            
             <p>
                 The ultimate hub for unblocked computer games and TI-84 Plus CE calculator tools.
             </p>
@@ -64,7 +70,7 @@
             } else {
                 const btn = document.createElement('button');
                 btn.innerText = "Sign In";
-                btn.className = "btn-primary"; // Styled with neon green
+                btn.className = "btn-primary";
                 btn.onclick = () => Clerk.openSignIn();
                 signInDiv.appendChild(btn);
 
