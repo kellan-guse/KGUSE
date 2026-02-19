@@ -34,25 +34,31 @@ body {
     flex-shrink: 0;
     border-right: 2px solid var(--neon-green);
     box-shadow: 5px 0 15px rgba(57, 255, 20, 0.2);
+    z-index: 20;
 }
 
 .logo-area {
-    padding: 25px;
+    padding: 30px 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     border-bottom: 1px solid var(--neon-border);
 }
 
-/* Sidebar Logo Sizing (Targeting class in your HTML) */
+/* Updated Sidebar Logo Sizing */
 .sidebar-logo {
-    width: 100%;
-    max-width: 160px; 
+    width: 90%;           /* Fills the sidebar width better */
+    max-width: 190px;     
     height: auto;
-    filter: drop-shadow(0 0 5px var(--neon-glow));
+    filter: drop-shadow(0 0 8px var(--neon-glow));
+    transition: transform 0.3s ease;
 }
 
-.nav-links { flex: 1; padding: 20px 0; }
+.nav-links { 
+    flex: 1; 
+    padding: 20px 0;
+    overflow-y: auto; 
+}
 
 .nav-item {
     display: block;
@@ -74,7 +80,7 @@ body {
 .main-content {
     flex: 1;
     overflow-y: auto;
-    padding: 40px;
+    padding: 60px 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -82,91 +88,116 @@ body {
 
 .page-header {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .page-title {
     color: var(--neon-green);
-    text-shadow: 0 0 15px var(--neon-glow);
-    font-size: 2.5rem;
+    text-shadow: 0 0 20px var(--neon-glow);
+    font-size: 3rem;
+    margin: 0;
 }
 
 /* --- Hero Card (Centered) --- */
 .hero-card {
     background: var(--bg-black);
-    border-radius: 24px;
-    padding: 50px 40px;
+    border-radius: 28px;
+    padding: 60px 40px;
     text-align: center;
     border: 2px solid var(--neon-green);
-    box-shadow: 0 0 30px rgba(57, 255, 20, 0.2); 
-    width: 90%;
-    max-width: 700px;
+    box-shadow: 0 0 40px rgba(57, 255, 20, 0.15); 
+    width: 95%;
+    max-width: 850px;
+    margin-top: 20px;
 }
 
-/* Fix for the "Too Big" logo in your screenshot */
+/* Updated Hero Logo Sizing (Center) */
 .hero-logo-container {
     display: flex;
     justify-content: center;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
 }
 
 .hero-logo {
-    width: 140px; /* Reduced size based on your feedback */
+    width: 320px;         /* Increased significantly to avoid being "too small" */
     height: auto;
-    filter: drop-shadow(0 0 10px var(--neon-glow));
+    filter: drop-shadow(0 0 25px var(--neon-glow));
 }
 
 .hero-card p {
     color: var(--text-muted);
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     line-height: 1.6;
-    margin-bottom: 35px;
+    max-width: 600px;
+    margin: 0 auto 40px auto;
 }
 
 /* --- Hero Buttons --- */
 .hero-buttons {
     display: flex;
-    gap: 15px;
+    gap: 20px;
     justify-content: center;
 }
 
 .btn-primary, .btn-secondary {
-    padding: 12px 28px;
-    border-radius: 10px;
-    font-weight: 700;
+    padding: 16px 36px;
+    border-radius: 12px;
+    font-weight: 800;
     text-decoration: none;
-    transition: 0.3s;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
     cursor: pointer;
+    display: inline-block;
 }
 
 .btn-primary {
     background: var(--neon-green);
     color: #000;
-    box-shadow: 0 0 10px var(--neon-glow);
+    border: none;
+    box-shadow: 0 0 15px var(--neon-glow);
 }
 
 .btn-secondary {
     background: transparent;
-    border: 1px solid var(--neon-green);
+    border: 2px solid var(--neon-green);
     color: var(--neon-green);
 }
 
-.btn-primary:hover, .btn-secondary:hover {
+.btn-primary:hover {
     transform: translateY(-3px);
-    box-shadow: 0 0 20px var(--neon-glow);
+    box-shadow: 0 0 25px var(--neon-green);
+}
+
+.btn-secondary:hover {
+    background: rgba(57, 255, 20, 0.1);
+    transform: translateY(-3px);
 }
 
 /* --- Auth Styling --- */
 .auth-container {
     margin-top: auto;
-    padding: 20px;
+    padding: 25px;
     border-top: 1px solid var(--neon-border);
-    display: flex;
-    justify-content: center;
+    background: rgba(0,0,0,0.3);
 }
 
-/* Locked/Protected state visual cue */
 .locked {
-    opacity: 0.7;
-    cursor: not-allowed;
+    opacity: 0.6;
+    cursor: not-allowed !important;
+    position: relative;
+}
+
+/* Scrollbar Styling for Neon Theme */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-black);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--neon-border);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--neon-green);
 }
