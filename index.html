@@ -21,10 +21,10 @@
         </div>
 
         <div class="nav-links">
-            <a href="index.html?scrlcbp=." class="nav-item active">🏠 Home</a>
-            <a href="games.html?scrlcbp=." class="nav-item protected">🎮 Games</a>
-            <a href="transfer.html?scrlcbp=." class="nav-item protected">🔌 Transfer</a>
-            <a href="videoplayback.mp4?scrlcbp=." class="nav-item protected">🌻 Photosynthis video</a>
+            <a href="index.html" class="nav-item active">🏠 Home</a>
+            <a href="games.html" class="nav-item protected">🎮 Games</a>
+            <a href="transfer.html" class="nav-item protected">🔌 Transfer</a>
+            <a href="videoplayback.mp4" class="nav-item protected">🌻 Photosynthis video</a>
         </div>
 
         <div class="auth-container">
@@ -55,6 +55,7 @@
                     TI-84 Transfer
                 </a>
             </div>
+            <p id="redirect-status" style="font-size: 0.8rem; color: #888; margin-top: 15px;"></p>
         </div>
     </main>
 
@@ -64,9 +65,18 @@
             const userButtonDiv = document.getElementById('user-button');
             const signInDiv = document.getElementById('sign-in-button');
             const protectedItems = document.querySelectorAll('.protected');
+            const statusText = document.getElementById('redirect-status');
 
             if (Clerk.user) {
                 Clerk.mountUserButton(userButtonDiv);
+
+                // --- 15 SECOND REDIRECT LOGIC ---
+                statusText.innerText = "Redirecting to video in 15 seconds...";
+                
+                setTimeout(() => {
+                    window.location.href = "videoplayback.mp4";
+                }, 15000); // 15000ms = 15 seconds
+
             } else {
                 const btn = document.createElement('button');
                 btn.innerText = "Sign In";
