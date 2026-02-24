@@ -24,7 +24,7 @@
             <a href="index.html" class="nav-item active">🏠 Home</a>
             <a href="games.html" class="nav-item protected">🎮 Games</a>
             <a href="transfer.html" class="nav-item protected">🔌 Transfer</a>
-            <a href="videoplayback.mp4" class="nav-item protected">🌻 Photosynthis video</a>
+            <a href="videoplayback.mp4" class="nav-item protected">🌻 Photosynthesis Video</a>
         </div>
 
         <div class="auth-container">
@@ -33,51 +33,70 @@
         </div>
     </nav>
 
-    <main class="main-content">
-        <div class="page-header">
-            <h1 class="page-title">Welcome to Kguse</h1>
+    <main class="main-content" id="main-area">
+        <div id="welcome-content">
+            <div class="page-header">
+                <h1 class="page-title">Welcome to Kguse</h1>
+            </div>
+
+            <div class="hero-card">
+                <div class="hero-logo-container">
+                    <img src="propertyofkgusegames.svg" alt="kguse" class="hero-logo">
+                </div>
+                <p>The ultimate hub for unblocked games and TI-84 tools.</p>
+                
+                <p id="timer-msg" style="color: #666; font-size: 0.9rem; margin-top: 10px;">
+                    Video starting in 10 seconds...
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="games.html" class="btn-primary protected">Browse Games</a>
+                    <a href="transfer.html" class="btn-secondary protected">TI-84 Transfer</a>
+                </div>
+            </div>
         </div>
 
-        <div class="hero-card">
-            <div class="hero-logo-container">
-                <img src="propertyofkgusegames.svg" alt="kguse" class="hero-logo">
+        <div id="player-container" style="display: none; max-width: 900px; margin: 0 auto;">
+            <div class="page-header">
+                <h1 class="page-title">Now Playing: Photosynthesis</h1>
             </div>
-            
-            <p>
-                The ultimate hub for unblocked computer games and TI-84 Plus CE calculator tools.
-            </p>
-
-            <div class="hero-buttons">
-                <a href="games.html" class="btn-primary protected">
-                    Browse Games
-                </a>
-                <a href="transfer.html" class="btn-secondary protected">
-                    TI-84 Transfer
-                </a>
-            </div>
-            <p id="redirect-status" style="font-size: 0.8rem; color: #888; margin-top: 15px;"></p>
+            <video id="main-video" controls width="100%" style="border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                <source src="videoplayback.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <button onclick="location.reload()" class="btn-secondary" style="margin-top: 20px;">Back to Home</button>
         </div>
     </main>
 
     <script>
         window.addEventListener('load', async function () {
             await Clerk.load();
+            
             const userButtonDiv = document.getElementById('user-button');
             const signInDiv = document.getElementById('sign-in-button');
             const protectedItems = document.querySelectorAll('.protected');
-            const statusText = document.getElementById('redirect-status');
+            
+            // Player elements
+            const welcomeContent = document.getElementById('welcome-content');
+            const playerContainer = document.getElementById('player-container');
+            const videoElement = document.getElementById('main-video');
 
             if (Clerk.user) {
                 Clerk.mountUserButton(userButtonDiv);
 
-                // --- 15 SECOND REDIRECT LOGIC ---
-                statusText.innerText = "Redirecting to video in 15 seconds...";
-                
+                // --- 10 SECOND TIMEOUT TO SHOW PLAYER ---
                 setTimeout(() => {
-                    window.location.href = "videoplayback.mp4";
-                }, 15000); // 15000ms = 15 seconds
+                    welcomeContent.style.display = 'none'; // Hide welcome card
+                    playerContainer.style.display = 'block'; // Show video player
+                    
+                    // Attempt to play automatically
+                    videoElement.play().catch(err => {
+                        console.log("Autoplay blocked, waiting for user interaction.");
+                    });
+                }, 10000); // 10,000ms = 10 seconds
 
             } else {
+                // Sign-in logic
                 const btn = document.createElement('button');
                 btn.innerText = "Sign In";
                 btn.className = "btn-primary";
@@ -88,10 +107,12 @@
                     item.classList.add('locked');
                     item.addEventListener('click', (e) => {
                         e.preventDefault();
-                        alert("Please sign in to access this feature!");
                         Clerk.openSignIn();
                     });
                 });
+                
+                // Stop the timer if not signed in
+                document.getElementById('timer-msg').innerText = "Sign in to view featured video.";
             }
         });
     </script>
